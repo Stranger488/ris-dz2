@@ -3,25 +3,11 @@
 from flask import Flask, request, render_template, Blueprint, redirect
 from includes.db_connect import db_connect
 
-from main_menu.queries.query1.query1 import query1_blueprint
-from main_menu.queries.query2.query2 import query2_blueprint
-from main_menu.queries.query3.query3 import query3_blueprint
-from main_menu.queries.query4.query4 import query4_blueprint
-from main_menu.queries.query5.query5 import query5_blueprint
-from main_menu.queries.query6.query6 import query6_blueprint
-
 app = Flask(__name__)
 
 queries_blueprint = Blueprint('queries', '__name__')
 
-app.register_blueprint(query1_blueprint, url_prefix='/queries')
-app.register_blueprint(query2_blueprint, url_prefix='/queries')
-app.register_blueprint(query3_blueprint, url_prefix='/queries')
-app.register_blueprint(query4_blueprint, url_prefix='/queries')
-app.register_blueprint(query5_blueprint, url_prefix='/queries')
-app.register_blueprint(query6_blueprint, url_prefix='/queries')
-
-@app.route('/queries', methods = ['POST', 'GET'])
+@queries_blueprint.route('/queries', methods = ['POST', 'GET'])
 def do_queries():
     try:
         back = request.args['back']
@@ -29,7 +15,7 @@ def do_queries():
         back = None
 
     if (back != None):
-        return render_template('main_menu.html')
+        return redirect('/main_menu')
 
 
     try:

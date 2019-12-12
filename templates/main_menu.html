@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Главное меню</title>
-    <link rel="stylesheet" type="text/css" href="static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
     <link rel="icon" href="static/img/hospital-favicon128x128.ico">
 </head>
 <body>
@@ -13,9 +13,9 @@
 		<h2>Добро пожаловать в главное меню информационной системы "Госпиталь".</h2>
 		<hr>
 		<h3>Главное меню</h3>
-		<ul class="main_nav">
+		<ul class="main_nav main_menu">
             <li>
-                <a href="?point=1">
+                <a href=".?point=1">
                     <span class="defis"></span>
                     <div></div>
                     <span>Назначить лечащего врача</span>
@@ -57,7 +57,7 @@
                 </a>
             </li>
 		</ul>
-
+        <br>
 		<a href="?out" class="out_btn" name="out">Выход</a>
 	</div>
 </body>

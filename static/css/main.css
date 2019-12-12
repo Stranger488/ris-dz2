@@ -158,6 +158,8 @@ input:focus:valid, textarea:focus:valid {
   z-index: 4;
 }
 
+
+
 .main_nav li:nth-child(1) a .defis:before {
    content: '1.';
    left: 0;
@@ -263,4 +265,30 @@ table.table_res td {
 #year_id, #month_id, #dep_id, #zapros1_year_id,
 #zapros6_year_id, #zapros6_month_id{
   margin-bottom: 10px;
+}
+
+
+.main_nav.main_menu {
+  margin: 0 auto;
+  text-align: left;
+  display: inline-block;
+}
+
+.main_nav.main_menu li a .defis:before {
+  content: '•';
+}
+
+.main_nav.main_menu a .defis:after {
+  content: '';
+  left: -20px;
+}
+
+.main_nav.main_menu a:hover .defis:before {
+  transform: translateX(-20px);
+  content: '';
+}
+
+.main_nav.main_menu a:hover .defis:after {
+  transform: translateX(30px);
+  content: '>';
 }
