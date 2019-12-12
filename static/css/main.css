@@ -1,0 +1,266 @@
+html .container {
+  margin-top: 0;
+}
+
+body {
+  background-color: #f3f3f3;
+  font-size: 1.5em;
+  min-width: 320px;
+  position: relative;
+  line-height: 1.65;
+  font-family: 'Open Sans', 'Arial', 'Calibri', 'Times New Roman', serif;
+  overflow-x: hidden;
+  color: #333;
+  letter-spacing: 0.01rem;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+  height: 100vh;
+}
+
+.img {
+  padding: 0;
+  margin: 0;
+  background-image: url("../img/7.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.img:after {
+  padding: 0;
+  margin: 0;
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  opacity: .65;
+}
+
+input[type=submit] {
+  outline: none;
+  border: none;
+
+}
+
+input[type=text] {
+  font-size: 18px;
+  width: 180px;
+  height: 25px;
+  border: #666 1px solid;
+  outline: none;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+input:focus:required:invalid, textarea:focus:required:invalid {
+  border-color: red;
+}
+
+input:focus:valid, textarea:focus:valid {
+  border-color: green;
+}
+
+.container {
+  height: auto;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 25px;
+}
+
+.container a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container h2, h3 {
+  color: #666;
+  margin-bottom: 20px;
+}
+
+.main_nav {
+  margin: 0 0 15px 0;
+  padding: 0;
+  list-style-type: none;
+  text-align: left;
+}
+
+.main_nav a {
+  display: inline-block;
+  padding: 10px;
+  min-width: 150px;
+  letter-spacing: 0.1rem;
+  transition: all .25s ease-in-out;
+  border-radius: 3px;
+  position: relative;
+  margin-bottom: 3px;
+}
+
+.main_nav a:hover span {
+  color: #f9f0ff;
+}
+
+.main_nav a span {
+  z-index: 3;
+  position: relative;
+  transition: all .35s ease-in-out;
+}
+
+.main_nav div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0;
+  background-color: rgba(18, 90, 162, 0.7);
+  transition: all .35s ease;
+  z-index: 2;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  line-height: 56px;
+}
+
+.main_nav a span.defis {
+  position: absolute;
+  top: 0;
+  left: -35px;
+  background-color: rgba(18, 90, 162, 0.7);
+  width: 35px;
+  height: 100%;
+  line-height: 59px;
+  transition: all .25s ease-in-out;
+  z-index: 3;
+}
+
+.main_nav a:hover div {
+  width: 100%;
+}
+
+.main_nav a .defis:before, .main_nav a .defis:after {
+  position: absolute;
+  top: 0;
+  background-color: transparent;
+  width: 35px;
+  line-height: 59px;
+  color: #f3f3f3;
+  text-align: center;
+  transition: all .25s ease-in-out;
+  font-size: 1em;
+  z-index: 4;
+}
+
+.main_nav li:nth-child(1) a .defis:before {
+   content: '1.';
+   left: 0;
+}
+.main_nav li:nth-child(2) a .defis:before {
+  content: '2.';
+  left: 0;
+}
+.main_nav li:nth-child(3) a .defis:before {
+  content: '3.';
+  left: 0;
+}
+.main_nav li:nth-child(4) a .defis:before {
+  content: '4.';
+  left: 0;
+}
+.main_nav li:nth-child(5) a .defis:before {
+  content: '5.';
+  left: 0;
+}
+.main_nav li:nth-child(6) a .defis:before {
+  content: '6.';
+  left: 0;
+}
+.main_nav li:nth-child(7) a .defis:before {
+  content: '7.';
+  left: 0;
+}
+
+.main_nav a .defis:after {
+    content: '>';
+    transform: rotateZ(90deg);
+    left: -45px;
+}
+
+.main_nav a:hover .defis:before {
+  transform: translateX(-45px);
+}
+
+.main_nav a:hover .defis:after {
+    transform: translateX(55px);
+}
+
+.container .out_btn {
+  border-radius: 10px;
+  padding: 10px;
+  display: inline-block;
+  background-color: #f17777;
+  min-width: 90px;
+  color: #fff;
+  transition: opacity .25s ease-in-out;
+  margin: 5px;
+  font-size: 18px;
+  height: 20px;
+  line-height: 20px;
+  box-shadow: 0 3px 0 0 #9a000087;
+}
+
+.container input.out_btn {
+  height: 40px;
+}
+
+.container .out_btn:hover {
+   opacity: .8;
+   cursor: pointer;
+}
+
+.container .out_btn:active {
+  top: 3px;
+  position: relative;
+  box-shadow: none;
+}
+
+.table_wrap {
+  overflow: auto;
+  width: auto;
+}
+
+table.table_res {
+  margin-bottom: 15px;
+  font-size: 18px;
+  text-align: center;
+}
+
+table.table_res thead {
+  font-style: italic;
+}
+
+table.table_res td {
+  padding: 10px;
+}
+
+.table_res thead {
+  background-color: rgba(18, 90, 162, 0.75);
+  color: #f3f3f3;
+}
+
+.table_res tbody {
+  background-color: rgba(18, 90, 162, 0.5);
+  color: #f3f3f3;
+}
+
+#year_id, #month_id, #dep_id, #zapros1_year_id,
+#zapros6_year_id, #zapros6_month_id{
+  margin-bottom: 10px;
+}
