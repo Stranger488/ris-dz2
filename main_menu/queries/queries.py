@@ -10,11 +10,21 @@ queries_blueprint = Blueprint('queries', '__name__')
 @queries_blueprint.route('/queries', methods = ['POST', 'GET'])
 def do_queries():
     try:
-        back = request.args['back']
+        queries_out = request.args['out']
     except:
-        back = None
+        queries_out = None
 
-    if (back != None):
+    if (queries_out != None):
+        return render_template('out.html')
+
+
+
+    try:
+        queries_back = request.args['back']
+    except:
+        queries_back = None
+
+    if (queries_back != None):
         return redirect('/main_menu')
 
 

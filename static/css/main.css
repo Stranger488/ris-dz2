@@ -292,3 +292,13 @@ table.table_res td {
   transform: translateX(30px);
   content: '>';
 }
+
+
+.main_nav.main_menu a {
+  width: 100%;
+  transition: all .25s ease-in-out;
+}
+
+.main_nav.main_menu a:hover:last-child {
+  transform: translateX(17px);
+}

@@ -1,0 +1,32 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Получение отчета</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        <h2>Отправка запроса для получения отчета</h2>
+        <p>Количество пациентов за месяц в каждом отделении с определенным диагнозом.</p>
+        <hr>
+
+        <form action="" method="POST">
+            <label for="year_id">Введите год:</label>
+            <input type="text" name="in_year" id="year_id">
+            <br>
+            <label for="month_id">Введите месяц:</label>
+            <input type="text" name="in_month" id="month_id">
+            <br>
+            <input type="submit" name="send" value="Отправить" class="out_btn">
+        </form>
+
+
+        <a href="?back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>

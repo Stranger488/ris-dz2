@@ -1,0 +1,52 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Получение отчета</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+
+        {% if (is_existed) %}
+            <h4>Такой отчет уже существует.</h4>
+        {% endif %}
+
+        {% if (result) %}
+            <h2>Результаты запроса</h2>
+            <div class="table_wrap">
+                <table class="table_res" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <td>Номер строки</td>
+                        <td>Номер отделения</td>
+                        <td>Год</td>
+                        <td>Месяц</td>
+                        <td>Диагноз пациента</td>
+                        <td>Количество пациентов</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in result %}
+                        <tr>
+                            <td>{{ res['O_id'] }}</td>
+                            <td>{{ res['O_dep'] }}</td>
+                            <td>{{ res['O_year'] }}</td>
+                            <td>{{ res['O_month'] }}</td>
+                            <td>{{ res['O_diagn'] }}</td>
+                            <td>{{ res['O_count'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        {% endif %}
+
+        <a href="?report_result_back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>

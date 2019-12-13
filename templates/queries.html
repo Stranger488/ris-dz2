@@ -4,8 +4,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Меню запросов</title>
-    <link rel="stylesheet" type="text/css" href="static/css/main.css">
-    <link rel="icon" href="static/img/hospital-favicon128x128.ico">
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
 </head>
 <body>
     <div class="img"></div>
@@ -56,7 +56,8 @@
             </li>
 		</ul>
 
-		<a href="?back" class="back_btn out_btn" name="back">Назад</a>
+        <a href="?back" class="back_btn out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
 	</div>
 </body>
 </html>
