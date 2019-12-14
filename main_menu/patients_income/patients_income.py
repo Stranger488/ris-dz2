@@ -47,12 +47,11 @@ def do_patients_income():
         except Error as e:
             err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
             return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='back')
-
         cursor = conn.cursor()
-        _SQL = """
-            select P_passport, P_outcoming_date from patient where P_passport=%s and P_outcoming_date is not null;
-            """
         try:
+            _SQL = """
+                select P_passport, P_outcoming_date from patient where P_passport=%s and P_outcoming_date is not null;
+                """
             result = select(_SQL, cursor, (session.get('patient_passp'),))
             cursor.close()
             conn.close()
@@ -83,10 +82,9 @@ def do_patients_income():
             conn = db_connect('root', '', 'localhost', 'hospital')
         except Error as e:
             err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
+            session.clear()
             return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='back')
-
         cursor = conn.cursor()
-
         try:
             _SQL = """
                 insert into patient values (null, %s, %s, %s, %s, null, %s, %s, null);
@@ -95,22 +93,23 @@ def do_patients_income():
                                     session.get('patient_birth'), session.get('patient_income'),
                                     session.get('patient_diagn'), session.get('patient_room'),))
             conn.commit()
+            cursor.close()
+            conn.close()
         except Error as e:
             err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
             return render_template('err_output.html', err_output=err_output, nav_buttons=True)
 
+        
         result = "Пациент успешно занесен в базу данных."
         session.clear()
-        cursor.close()
-        conn.close()
         return render_template('output.html', output=result, nav_buttons=True, back='back')
-
 
 
     try:
         conn = db_connect('root', '', 'localhost', 'hospital')
     except Error as e:
         err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
+        session.clear()
         return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='back')
 
     cursor = conn.cursor()
@@ -123,15 +122,19 @@ def do_patients_income():
         result = select(_SQL, cursor)
     except Error as e:
         err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
+        session.clear()
         return render_template('err_output.html', err_output=err_output, nav_buttons=True)
 
     chosen_rooms = []
     for r_id, r_place_count, pat_count in result:
         if (r_place_count > pat_count):
             chosen_rooms.append(r_id)
-            print(chosen_rooms)
-    
+
     if (len(chosen_rooms) < 1):
+        result = "Нет свободных палат."
+        session.clear()
+        cursor.close()
+        conn.close()
         return render_template('output.html', output=result, nav_buttons=True, back='back')
 
     session['available_rooms'] = chosen_rooms
