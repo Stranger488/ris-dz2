@@ -2,6 +2,8 @@
 
 from flask import Flask, request, render_template, Blueprint, redirect
 from includes.db_connect import db_connect
+from includes.select import select
+from mysql.connector import Error
 
 report_blueprint = Blueprint('report', '__name__')
 
@@ -35,17 +37,24 @@ def do_report():
     if (report_send != None):
         report_in_year = request.form['in_year']
         report_in_month = request.form['in_month']
+        is_existed = True
 
-        conn = db_connect('root', '')
+        try:
+            conn = db_connect('root', '', 'localhost', 'hospital')
+        except Error as e:
+            err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
+            return render_template('err_output.html', err_output=err_output, nav_buttons=True)
+    
         cursor = conn.cursor()
         _SQL = """
                 SELECT * FROM hospital.otchet WHERE O_year=%s AND O_month=%s;
                 """
-        cursor.execute(_SQL, (report_in_year, report_in_month,))
-        result = cursor.fetchall()
-        is_existed = True
-
-
+        try:
+            result = select(_SQL, cursor, (report_in_year, report_in_month,))
+        except Error as e:
+            err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
+            return render_template('err_output.html', err_output=err_output, nav_buttons=True)
+        
         if (len(result) < 1):
             status = []
             is_existed = False
@@ -56,21 +65,14 @@ def do_report():
             conn.commit()
 
             if (status[0][0][0] != 'success'):
-                result = ("Неизвестная ошибка %s", status[0][0])
+                result = ("Неизвестная ошибка %s", status[0][0][0])
                 return render_template('output.html', output=result, nav_buttons=True, back='report_result_back')
 
-            cursor.execute(_SQL, (report_in_year, report_in_month,))
-            result = cursor.fetchall()
-
-            # try:
-            #     call_cursor.execute(_SQL_CALL, (report_in_year, report_in_month,))
-            #     status = call_cursor.fetchall()
-            #     if (status[0][0] != 'success'):
-            #         raise Exception
-            #     cursor.execute(_SQL, (report_in_year, report_in_month,))
-            #     result = cursor.fetchall()
-            # except Exception:
-            #     print("Неизвестная ошибка %s",  status[0][0])
+            try:
+                result = select(_SQL, cursor, (report_in_year, report_in_month,))
+            except Error as e:
+                err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
+                return render_template('err_output.html', err_output=err_output, nav_buttons=True)
 
             if (len(result) < 1):
                 result = "В отчете c текущими параметрами нет строк."
@@ -82,8 +84,8 @@ def do_report():
             res.append(dict(zip(schema, r)))
         result = res
         
-        return render_template('report_result.html', result=result, is_existed=is_existed)
+        return render_template('report/report_result.html', result=result, is_existed=is_existed)
 
-    return render_template('report.html')
+    return render_template('report/report.html')
                 
 

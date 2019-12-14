@@ -3,18 +3,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Вывод</title>
+    <title>Ошибка</title>
     <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
 </head>
 <body>
     <div class="img"></div>
     <div class="container">
-        {% if (output) %}
-            <p>{{ output }}</p>
+        {% if (err_output) %}
+            <p>{{ err_output }}</p>
         {% else %}
-            <p>Ошибка вывода.</p>
+            <p>Неизвестная ошибка.</p>
         {% endif %}
+
         {% if (nav_buttons) %}
             <a href="?{{ back }}" class="out_btn">Назад</a>
             <a href="?out" class="out_btn">Выход</a>

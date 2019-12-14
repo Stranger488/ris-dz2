@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, Blueprint, redirect, url_for
 import os
 
 from main_menu.main_menu import main_menu_blueprint
+from auth.auth import auth_blueprint
 
 from main_menu.appointment.appointment import appointment_blueprint
 from main_menu.history_rec.history_rec import history_rec_blueprint
@@ -22,6 +23,7 @@ from main_menu.queries.query6.query6 import query6_blueprint
 app = Flask(__name__)
 
 app.register_blueprint(main_menu_blueprint)
+app.register_blueprint(auth_blueprint)
 
 app.register_blueprint(appointment_blueprint)
 app.register_blueprint(history_rec_blueprint)
