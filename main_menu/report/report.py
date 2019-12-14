@@ -43,7 +43,7 @@ def do_report():
             conn = db_connect('root', '', 'localhost', 'hospital')
         except Error as e:
             err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
-            return render_template('err_output.html', err_output=err_output, nav_buttons=True)
+            return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='report_result_back')
     
         cursor = conn.cursor()
         _SQL = """
@@ -66,7 +66,7 @@ def do_report():
 
             if (status[0][0][0] != 'success'):
                 result = ("Неизвестная ошибка %s", status[0][0][0])
-                return render_template('output.html', output=result, nav_buttons=True, back='report_result_back')
+                return render_template('output.html', output=result, nav_buttons=True)
 
             try:
                 result = select(_SQL, cursor, (report_in_year, report_in_month,))
@@ -84,7 +84,7 @@ def do_report():
             res.append(dict(zip(schema, r)))
         result = res
         
-        return render_template('main_menu/report/report_result.html', result=result, is_existed=is_existed)
+        return render_template('main_menu/report/report_result.html', result=result, is_existed=is_existed, back='back')
 
     return render_template('main_menu/report/report.html')
                 

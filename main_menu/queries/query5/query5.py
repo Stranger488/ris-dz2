@@ -63,6 +63,6 @@ def do_query5():
             res.append(dict(zip(schema, r)))
         result = res
         
-        return render_template('main_menu/queries/query5/query5_result.html', result=result)
+        return render_template('main_menu/queries/query5/query5_result.html', result=result, back='back')
 
     return render_template('main_menu/queries/query5/query5.html')

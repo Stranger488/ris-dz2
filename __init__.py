@@ -52,6 +52,8 @@ def dated_url_for(endpoint, **values):
 
 app.jinja_env.globals.update(dated_url_for=dated_url_for)
 
+app.config['SECRET_KEY'] = os.urandom(24)
+
 
 
 @app.route('/')

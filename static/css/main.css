@@ -302,3 +302,9 @@ table.table_res td {
 .main_nav.main_menu a:hover:last-child {
   transform: translateX(17px);
 }
+
+.my_select {
+  width: 60px;
+  border-radius: 5px;
+  padding: 5px;
+}

@@ -1,0 +1,40 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Прием пациента в госпиталь</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        <h2>Заполните данные пациента.</h2>
+        <hr>
+
+        <form action="" method="POST">
+            <label for="patient_passp_id">Введите паспортные данные:</label>
+            <input type="text" name="patient_passp" id="patient_passp_id">
+            <br>
+            <label for="patient_addr_id">Введите адрес:</label>
+            <input type="text" name="patient_addr" id="patient_addr_id">
+            <br>
+            <label for="patient_birth_id">Введите дату рождения:</label>
+            <input type="date" name="patient_birth" id="patient_birth_id">
+            <br>
+            <label for="patient_income_id">Введите дату приема:</label>
+            <input type="date" name="patient_income" id="patient_income_id">
+            <br>
+            <label for="patient_diagn_id">Введите диагноз:</label>
+            <input type="text" name="patient_diagn" id="patient_diagn_id">
+            <br>
+            <input type="submit" name="send" value="Отправить" class="out_btn">
+        </form>
+
+
+        <a href="?back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>
