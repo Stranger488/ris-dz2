@@ -34,16 +34,16 @@ def do_queries():
         point = None
     
     if (point == None):
-        return render_template('queries.html')
+        return render_template('queries/queries.html')
     if (point == '1'):
-        return redirect('/query1')
+        return redirect('/queries/query1')
     if (point == '2'):
-        return redirect('/query2')
+        return redirect('/queries/query2')
     if (point == '3'):
-        return redirect('/query3')
+        return redirect('/queries/query3')
     if (point == '4'):
-        return redirect('/query4')
+        return redirect('/queries/query4')
     if (point == '5'):
-        return redirect('/query5')
+        return redirect('/queries/query5')
     if (point == '6'):
-        return redirect('/query6')
+        return redirect('/queries/query6')
