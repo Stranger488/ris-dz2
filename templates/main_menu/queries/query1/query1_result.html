@@ -1,0 +1,41 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Запрос 1</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        {% if (result) %}
+            <h2>Результаты запроса 1</h2>
+            <div class="table_wrap">
+                <table class="table_res" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <td>ID врача</td>
+                        <td>Фамилия врача</td>
+                        <td>Количество пациентов за год</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in result %}
+                        <tr>
+                            <td>{{ res['Doc_id'] }}</td>
+                            <td>{{ res['Doc_family'] }}</td>
+                            <td>{{ res['pat_count'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        {% endif %}
+
+        <a href="?query1_result_back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>

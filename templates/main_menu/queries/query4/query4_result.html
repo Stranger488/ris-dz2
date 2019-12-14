@@ -1,0 +1,53 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Запрос 4</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        {% if (result) %}
+            <h2>Результаты запроса 4</h2>
+            <div class="table_wrap">
+                <table class="table_res" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <td>Номер пациента</td>
+                        <td>Паспортные данные</td>
+                        <td>Адрес</td>
+                        <td>Дата рождения</td>
+                        <td>Дата поступления</td>
+                        <td>Дата выписки</td>
+                        <td>Диагноз</td>
+                        <td>Номер палаты</td>
+                        <td>Номер врача</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in result %}
+                        <tr>
+                            <td>{{ res['P_id'] }}</td>
+                            <td>{{ res['P_passport'] }}</td>
+                            <td>{{ res['P_address'] }}</td>
+                            <td>{{ res['P_birth'] }}</td>
+                            <td>{{ res['P_incoming_date'] }}</td>
+                            <td>{{ res['P_outcoming_date'] }}</td>
+                            <td>{{ res['P_diagnosis'] }}</td>
+                            <td>{{ res['PR_id'] }}</td>
+                            <td>{{ res['PDoc_id'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        {% endif %}
+
+        <a href="?query4_result_back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>

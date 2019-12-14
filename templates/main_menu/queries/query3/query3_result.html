@@ -1,0 +1,57 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Запрос 3</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        {% if (result) %}
+            <h2>Результаты запроса 3</h2>
+            <div class="table_wrap">
+                <table class="table_res" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <td>Номер врача</td>
+                        <td>Ф. И. О. врача</td>
+                        <td>Паспортные данные</td>
+                        <td>Адрес</td>
+                        <td>Год рождения</td>
+                        <td>Специальность</td>
+                        <td>Дата поступления на работу</td>
+                        <td>Дата увольнения</td>
+                        <td>Номер отделения</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for res in result %}
+                        <tr>
+                            <td>{{ res['Doc_id'] }}</td>
+                            <td>{{ res['Doc_family'] }}</td>
+                            <td>{{ res['Doc_passport'] }}</td>
+                            <td>{{ res['Doc_address'] }}</td>
+                            <td>{{ res['Doc_birth_year'] }}</td>
+                            <td>{{ res['Doc_speciality'] }}</td>
+                            <td>{{ res['Doc_enroll_date'] }}</td>
+                            <td>
+                                {% if (res['Doc_dismiss_date']) %} 
+                                    {{ res['Doc_dismiss_date'] }}
+                                {% endif %}
+                            </td>
+                            <td>{{ res['DocDep_id'] }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        {% endif %}
+
+        <a href="?query3_result_back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>

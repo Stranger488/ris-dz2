@@ -34,7 +34,7 @@ def do_queries():
         point = None
     
     if (point == None):
-        return render_template('queries/queries.html')
+        return render_template('main_menu/queries/queries.html')
     if (point == '1'):
         return redirect('/queries/query1')
     if (point == '2'):

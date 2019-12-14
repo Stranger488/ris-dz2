@@ -22,7 +22,7 @@ def do_main_menu():
         point = None
     
     if (point == None):
-        return render_template('main_menu.html')
+        return render_template('main_menu/main_menu.html')
     if (point == '1'):
         return redirect('/appointment')
     if (point == '2'):

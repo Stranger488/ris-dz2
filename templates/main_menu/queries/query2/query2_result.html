@@ -3,7 +3,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Получение отчета</title>
+    <title>Запрос 2</title>
     <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
     <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
 </head>
@@ -11,22 +11,24 @@
     <div class="img"></div>
     <div class="container">
         {% if (result) %}
-            <h2>Результаты запроса 1</h2>
+            <h2>Результаты запроса 2</h2>
             <div class="table_wrap">
                 <table class="table_res" border="0" width="100%">
                 <thead>
                     <tr>
-                        <td>ID врача</td>
-                        <td>Фамилия врача</td>
-                        <td>Количество пациентов за год</td>
+                        <td>Номер отделения</td>
+                        <td>Название отделения</td>
+                        <td>Ф. И. О. заведующего</td>
+                        <td>Количество мест в отделении</td>
                     </tr>
                 </thead>
                 <tbody>
                     {% for res in result %}
                         <tr>
-                            <td>{{ res['Doc_id'] }}</td>
-                            <td>{{ res['Doc_family'] }}</td>
-                            <td>{{ res['pat_count'] }}</td>
+                            <td>{{ res['Dep_id'] }}</td>
+                            <td>{{ res['Dep_name'] }}</td>
+                            <td>{{ res['Dep_master_family'] }}</td>
+                            <td>{{ res['place_count'] }}</td>
                         </tr>
                     {% endfor %}
                 </tbody>
@@ -34,7 +36,7 @@
             </div>
         {% endif %}
 
-        <a href="?query1_result_back" class="out_btn">Назад</a>
+        <a href="?query2_result_back" class="out_btn">Назад</a>
         <a href="?out" class="out_btn">Выход</a>
     </div>
 </body>

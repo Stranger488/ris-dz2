@@ -84,8 +84,8 @@ def do_report():
             res.append(dict(zip(schema, r)))
         result = res
         
-        return render_template('report/report_result.html', result=result, is_existed=is_existed)
+        return render_template('main_menu/report/report_result.html', result=result, is_existed=is_existed)
 
-    return render_template('report/report.html')
+    return render_template('main_menu/report/report.html')
                 
 

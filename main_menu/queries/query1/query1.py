@@ -57,7 +57,7 @@ def do_query1():
         
         if (len(result) < 1):
             result = "Пациентов в отделении %s за %s год не найдено." % (query1_dep_num, query1_zapros1_year,)
-            return render_template('output.html', output=result, nav_buttons=True, back='report_result_back')
+            return render_template('output.html', output=result, nav_buttons=True, back='query1_result_back')
         
 
         res = []
@@ -66,6 +66,6 @@ def do_query1():
             res.append(dict(zip(schema, r)))
         result = res
         
-        return render_template('queries/query1/query1_result.html', result=result)
+        return render_template('main_menu/queries/query1/query1_result.html', result=result)
 
-    return render_template('queries/query1/query1.html')
+    return render_template('main_menu/queries/query1/query1.html')

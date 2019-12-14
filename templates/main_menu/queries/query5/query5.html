@@ -1,0 +1,29 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Отправка запроса 5</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        <h2>Отправка запроса 5</h2>
+
+        <p>
+            Все сведенья о врачах, которые ни разу не назначались лечащими врачами у пациентов.
+        </p>
+
+        <hr>
+
+        <form action="" method="POST">
+            <input type="submit" name="send" value="Отправить" class="out_btn">
+        </form>
+
+        <a href="?back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>
