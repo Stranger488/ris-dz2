@@ -5,9 +5,13 @@ from includes.db_connect import db_connect
 from includes.select import select
 from mysql.connector import Error
 
+from includes.utils import ensure_correct_role, ensure_logged_in
+
 appointment_blueprint = Blueprint('appointment', '__name__')
 
 @appointment_blueprint.route('/appointment', methods = ['POST', 'GET'])
+@ensure_logged_in
+@ensure_correct_role("zav")
 def do_appointment():
     try:
         appointment_result_back = request.args['appointment_result_back']

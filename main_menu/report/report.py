@@ -1,13 +1,17 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, Blueprint, redirect
+from flask import Flask, request, render_template, Blueprint, redirect, session
 from includes.db_connect import db_connect
 from includes.select import select
 from mysql.connector import Error
 
+from includes.utils import ensure_correct_role, ensure_logged_in
+
 report_blueprint = Blueprint('report', '__name__')
 
 @report_blueprint.route('/report', methods = ['POST', 'GET'])
+@ensure_logged_in
+@ensure_correct_role("zav")
 def do_report():
     try:
         report_result_back = request.args['report_result_back']
@@ -40,7 +44,7 @@ def do_report():
         is_existed = True
 
         try:
-            conn = db_connect('root', '', 'localhost', 'hospital')
+            conn = db_connect(session.get('user_login'), session.get('user_password'), 'localhost', 'hospital')
         except Error as e:
             err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
             return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='report_result_back')

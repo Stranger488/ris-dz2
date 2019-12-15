@@ -6,9 +6,13 @@ from includes.select import select
 from mysql.connector import Error
 from includes.my_config import DEP_ID
 
+from includes.utils import ensure_correct_role, ensure_logged_in
+
 patients_income_blueprint = Blueprint('patients_income', '__name__')
 
 @patients_income_blueprint.route('/patients_income', methods = ['POST', 'GET'])
+@ensure_logged_in
+@ensure_correct_role("dezh")
 def do_patients_income():
     try:
         patients_income_result_back = request.args['patients_income_result_back']

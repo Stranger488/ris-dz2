@@ -3,11 +3,15 @@
 from flask import Flask, request, render_template, Blueprint, redirect
 from includes.db_connect import db_connect
 
+from includes.utils import ensure_correct_role, ensure_logged_in
+
 app = Flask(__name__)
 
 queries_blueprint = Blueprint('queries', '__name__')
 
 @queries_blueprint.route('/queries', methods = ['POST', 'GET'])
+@ensure_logged_in
+@ensure_correct_role("zav")
 def do_queries():
     try:
         queries_out = request.args['out']

@@ -11,7 +11,15 @@
     <div class="img"></div>
 	<div class="container">
 		<h2>Добро пожаловать в главное меню информационной системы "Госпиталь".</h2>
-		<hr>
+        <hr>
+        {% if g.current_user %}
+            <p>Вы вошли как <i>{{ g.current_user }}</i></p>
+        {% endif %}
+        
+        {% if request.args['is_more'] %}
+            <p>{{ request.args['is_more'] }}</p>
+        {% endif %}
+
 		<h3>Главное меню</h3>
 		<ul class="main_nav main_menu">
             <li>

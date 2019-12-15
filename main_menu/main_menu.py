@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, Blueprint, redirect
+from flask import Flask, request, render_template, Blueprint, redirect, session, g 
+from includes.utils import ensure_logged_in
 
 app = Flask(__name__)
 
 main_menu_blueprint = Blueprint('main_menu', '__name__')
 
 @main_menu_blueprint.route('/main_menu', methods = ['POST', 'GET'])
+@ensure_logged_in
 def do_main_menu():
     try:
         main_menu_out = request.args['out']
@@ -14,7 +16,7 @@ def do_main_menu():
         main_menu_out = None
 
     if (main_menu_out != None):
-        return render_template('out.html')
+        return redirect('/logout')
 
     try:
         point = request.args['point']
@@ -35,3 +37,11 @@ def do_main_menu():
         return redirect('/queries')
     if (point == '6'):
         return redirect('/report')
+
+        
+@main_menu_blueprint.before_request
+def current_user():
+    if (session.get('user')):
+        g.current_user = session.get('user')
+    else:
+        g.current_user = None

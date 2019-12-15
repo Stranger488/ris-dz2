@@ -52,7 +52,7 @@ input[type=submit] {
 
 }
 
-input[type=text] {
+input[type=text], input[type=password] {
   font-size: 18px;
   width: 180px;
   height: 25px;

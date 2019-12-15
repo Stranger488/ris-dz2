@@ -1,0 +1,31 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Авторизация</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        <h2>Авторизация</h2>
+        <hr>
+
+        {% if request.args['is_more'] %}
+            <p>{{ request.args['is_more'] }}</p>
+        {% endif %}
+
+        <form action="" method="POST">
+            <label for="log_id">Введите логин:</label>
+            <input type="text" name="log" id="log_id">
+            <br>
+            <label for="passw_id">Введите пароль:</label>
+            <input type="password" name="passw" id="passw_id">
+            <br>
+            <input type="submit" name="auth_send" value="Войти" class="out_btn">
+        </form>
+    </div>
+</body>
+</html>

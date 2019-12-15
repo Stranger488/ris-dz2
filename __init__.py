@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, Blueprint, redirect, url_for
+from flask import Flask, request, render_template, Blueprint, redirect, url_for, session, flash
 import os
 from includes.my_config import DEP_ID
+
+from includes.utils import ensure_logged_in
 
 from main_menu.main_menu import main_menu_blueprint
 from auth.auth import auth_blueprint
@@ -51,14 +53,16 @@ def dated_url_for(endpoint, **values):
     return url_for(endpoint, **values)
 
 
+
+
+
 app.jinja_env.globals.update(dated_url_for=dated_url_for)
 
 app.config['SECRET_KEY'] = os.urandom(24)
 
 
-
 @app.route('/')
-@app.route('/main_menu')
+@ensure_logged_in
 def do_init():
     return redirect('/main_menu')
 

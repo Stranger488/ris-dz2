@@ -5,9 +5,13 @@ from includes.db_connect import db_connect
 from includes.select import select
 from mysql.connector import Error
 
+from includes.utils import ensure_correct_role, ensure_logged_in
+
 history_rec_blueprint = Blueprint('history_rec', '__name__')
 
 @history_rec_blueprint.route('/history_rec', methods = ['POST', 'GET'])
+@ensure_logged_in
+@ensure_correct_role("dezh", "zav", "lech")
 def do_history_rec():
     try:
         history_rec_result_back = request.args['history_rec_result_back']
