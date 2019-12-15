@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, Blueprint, redirect, session, g
+from flask import Flask, request, render_template, Blueprint, redirect, session, g, url_for
 from includes.db_connect import db_connect
 from includes.select import select
 from mysql.connector import Error
@@ -23,45 +23,40 @@ def do_auth():
         fictive_user_log = 'fictive'
         fictive_user_passw = 'qwerty'
 
-        try:
-            conn = db_connect(fictive_user_log, fictive_user_passw, 'localhost', 'hospital')
-        except Error as e:
-            err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
-            session.clear()
-            return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='back')
-        try:
-            cursor = conn.cursor()
-            _SQL = """
-                    select U_id, U_login, U_password, U_user_role from hospital.user join mysql.user where U_login = %s and U_password = %s;  
-                    """
-            result = select(_SQL, cursor, (login, scramble,))
-        except Error as e:
-            err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
-            session.clear()
-            return render_template('err_output.html', err_output=err_output, nav_buttons=True)
+        conn, status = db_connect(fictive_user_log, fictive_user_passw, 'localhost', 'hospital')
+        if (status):
+            return status
+
+        cursor = conn.cursor()
+        _SQL = """
+                select U_id, U_login, U_password, U_user_role from hospital.user where U_login = %s and U_password = %s;  
+                """
+        result, status = select(_SQL, cursor, conn, (login, scramble,))
+        if (status):
+            return status
+
         if (len(result) < 1):
             result = "Неправильный логин или пароль. Попробуйте снова."
-            return render_template('auth/auth.html', is_more=result)
-        
-        try:
-            cursor = conn.cursor()
-            _SQL = """
-                    select Password from `mysql`.`user` where User=%s;
-                    """
-            result_db_pas = select(_SQL, cursor, (result[0][3],))
-        except Error as e:
-            err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
-            session.clear()
-            return render_template('err_output.html', err_output=err_output, nav_buttons=True)
-        if (len(result) < 1):
+            return redirect(url_for('auth.do_auth', is_more=result))
+
+        _SQL = """
+                select DB_user_login, DB_user_password, DB_user_role from hospital.db_user where DB_user_id=%s;
+                """
+        result_db_pas, status = select(_SQL, cursor, conn, (result[0][3],))
+        if (status):
+            conn.close()
+            return status
+
+        if (len(result_db_pas) < 1):
             result = "Неизвестная ошибка. Нет пользователя в базе данных."
             return render_template('auth/auth.html', is_more=result)
 
         session['user_id'] = result[0][0]
-        session['user'] = result[0][1]
-        session['db_user_login'] = result[0][3]
-        session['db_user_password'] = result_db_pas[0][0]
-        
+        session['user_log'] = result[0][1]
+        session['db_user_login'] = result_db_pas[0][0]
+        session['db_user_password'] = result_db_pas[0][1]
+        session['user_role'] = result_db_pas[0][2]
+
         return redirect('/main_menu')
 
     return render_template('auth/auth.html')
@@ -70,7 +65,8 @@ def do_auth():
 @auth_blueprint.route('/logout')
 def do_logout():
     session.pop('user_id', None)
-    session.pop('user_login', None)
-    session.pop('user_password', None)
-    session.pop('user', None)
+    session.pop('user_log', None)
+    session.pop('db_user_login', None)
+    session.pop('db_user_password', None)
+    session.pop('user_role', None)
     return render_template('out.html')

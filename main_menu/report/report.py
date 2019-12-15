@@ -17,48 +17,42 @@ def do_report():
         report_result_back = request.args['report_result_back']
     except:
         report_result_back = None
-    if (report_result_back != None):
-        return redirect('/report')
-
     try:
         report_out = request.args['out']
     except:
         report_out = None
-    if (report_out != None):
-        return render_template('out.html')
-
     try:
         report_back = request.args['back']
     except:
         report_back = None
-    if (report_back != None):
-        return redirect('/main_menu')
-
     try:
         report_send = request.form['send']
     except:
         report_send = None
+
+
+    if (report_result_back != None):
+        return redirect('/report')
+    if (report_out != None):
+        return redirect('/logout')
+    if (report_back != None):
+        return redirect('/main_menu')
     if (report_send != None):
         report_in_year = request.form['in_year']
         report_in_month = request.form['in_month']
         is_existed = True
 
-        try:
-            conn = db_connect(session.get('user_login'), session.get('user_password'), 'localhost', 'hospital')
-        except Error as e:
-            err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
-            return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='report_result_back')
-    
+        conn, status = db_connect(session.get('db_user_login'), session.get('db_user_password'), 'localhost', 'hospital')
+        if (status):
+            return status
         cursor = conn.cursor()
         _SQL = """
                 SELECT * FROM hospital.otchet WHERE O_year=%s AND O_month=%s;
                 """
-        try:
-            result = select(_SQL, cursor, (report_in_year, report_in_month,))
-        except Error as e:
-            err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
-            return render_template('err_output.html', err_output=err_output, nav_buttons=True)
-        
+        result, status = select(_SQL, cursor, conn, (report_in_year, report_in_month,))
+        if (status):
+            return status
+
         if (len(result) < 1):
             status = []
             is_existed = False
@@ -72,11 +66,9 @@ def do_report():
                 result = ("Неизвестная ошибка %s", status[0][0][0])
                 return render_template('output.html', output=result, nav_buttons=True)
 
-            try:
-                result = select(_SQL, cursor, (report_in_year, report_in_month,))
-            except Error as e:
-                err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
-                return render_template('err_output.html', err_output=err_output, nav_buttons=True)
+            result, status = select(_SQL, cursor, conn, (report_in_year, report_in_month,))
+            if (status):
+                return status
 
             if (len(result) < 1):
                 result = "В отчете c текущими параметрами нет строк."

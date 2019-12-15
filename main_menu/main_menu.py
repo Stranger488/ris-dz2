@@ -41,7 +41,7 @@ def do_main_menu():
         
 @main_menu_blueprint.before_request
 def current_user():
-    if (session.get('user')):
-        g.current_user = session.get('user')
+    if (session.get('user_log')):
+        g.current_user = session.get('user_log')
     else:
         g.current_user = None

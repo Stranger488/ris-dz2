@@ -2,6 +2,7 @@
 
 from flask import Flask, request, render_template, Blueprint, redirect, url_for, session, flash
 import os
+import datetime
 from includes.my_config import DEP_ID
 
 from includes.utils import ensure_logged_in
@@ -59,7 +60,7 @@ def dated_url_for(endpoint, **values):
 app.jinja_env.globals.update(dated_url_for=dated_url_for)
 
 app.config['SECRET_KEY'] = os.urandom(24)
-
+app.config['PERMANENT_SESSION_LIFETIME'] = datetime.timedelta(days=31)
 
 @app.route('/')
 @ensure_logged_in

@@ -21,11 +21,11 @@ def ensure_correct_role(*args1):
             # in the params we have something called id, is it the same as the user logged in?
             is_right = False
             for role in args1:
-                if role == session.get('db_user_login'):
+                if role == session.get('user_role'):
                     is_right = True
             if (is_right == False):
                 # if not, redirect them back home
-                msg = "Нет прав для этого пункта"
+                msg = "Нет прав для этого пункта."
                 return redirect(url_for('main_menu.do_main_menu', is_more=msg))
 
             # otherwise, move on with all the arguments passed in!
