@@ -1,0 +1,49 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Редактирование данных пациентов</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        <h2>Редактировать данные пациента.</h2>
+
+        <form action="" method="POST">
+            {% for res in patient %}
+                <label for="patient_edit_num_id">Редактировать номер:</label>
+                <input type="text" name="patient_edit_num" id="patient_edit_num_id" value="{{ res['P_id'] }}">
+                <br>
+                <label for="patient_edit_passp_id">Редактировать паспортные данные:</label>
+                <input type="text" name="patient_edit_passp" id="patient_edit_passp_id" value="{{ res['P_passport'] }}">
+                <br>
+                <label for="patient_edit_addr_id">Редактировать адрес:</label>
+                <input type="text" name="patient_edit_addr" id="patient_edit_addr_id" value="{{ res['P_address'] }}">
+                <br>
+                <label for="patient_edit_birth_id">Редактировать дату рождения:</label>
+                <input type="date" name="patient_edit_birth" id="patient_edit_birth_id" value="{{ res['P_birth'] }}">
+                <br>
+                <label for="patient_edit_income_id">Редактировать дату приема в госпиталь:</label>
+                <input type="date" name="patient_edit_income" id="patient_edit_income_id" value="{{ res['P_incoming_date'] }}">
+                <br>
+                <label for="patient_edit_outcom_id">Редактировать дату выписки:</label>
+                <input type="date" name="patient_edit_outcom" id="patient_edit_outcom_id" value="{{ res['P_outcoming_date'] }}">
+                <br>
+                <label for="patient_edit_diagn_id">Редактировать диагноз:</label>
+                <input type="text" name="patient_edit_diagn" id="patient_edit_diagn_id" value="{{ res['P_diagnosis'] }}">
+                <br>
+                <label for="patient_edit_room_id">Редактировать палату:</label>
+                <input type="text" name="patient_edit_room" id="patient_edit_room_id" value="{{ res['PR_id'] }}">
+                <br>
+                <input type="submit" name="edit_send" value="Отправить" class="out_btn">
+            {% endfor %}
+        </form>
+
+        <a href="?pat_list_change_result_back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>

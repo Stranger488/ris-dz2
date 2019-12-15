@@ -4,6 +4,7 @@ from flask import Flask, request, render_template, Blueprint, redirect, session
 from includes.db_connect import db_connect
 from includes.select import select
 from mysql.connector import Error
+from includes.my_config import DEP_ID
 
 patients_income_blueprint = Blueprint('patients_income', '__name__')
 
@@ -47,23 +48,25 @@ def do_patients_income():
         except Error as e:
             err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
             return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='back')
-        cursor = conn.cursor()
         try:
+            cursor = conn.cursor()
             _SQL = """
-                select P_passport, P_outcoming_date from patient where P_passport=%s and P_outcoming_date is not null;
+                select P_passport, P_outcoming_date from patient where P_passport=%s and P_outcoming_date is null;
                 """
             result = select(_SQL, cursor, (session.get('patient_passp'),))
             cursor.close()
             conn.close()
-            if (len(result) > 0):
-                session.clear()
-                result = "Пациент уже существует в базе данных."
-                return render_template('output.html', output=result, nav_buttons=True, back='patients_income_result_back')
         except Error as e:
             err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
             return render_template('err_output.html', err_output=err_output, nav_buttons=True)
-        
-        
+
+
+        if (len(result) > 0):
+            session.clear()
+            result = "Пациент уже существует в базе данных."
+            return render_template('output.html', output=result, nav_buttons=True, back='patients_income_result_back')
+
+
 
         if (session.get('available_rooms')):
             return render_template('main_menu/patients_income/patients_income_rooms.html', rooms=session.get('available_rooms'))
@@ -77,15 +80,14 @@ def do_patients_income():
     if (patients_income_rooms_send != None):
         session['patient_room'] = request.form['patient_room']
 
-
         try:
             conn = db_connect('root', '', 'localhost', 'hospital')
         except Error as e:
             err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
             session.clear()
             return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='back')
-        cursor = conn.cursor()
         try:
+            cursor = conn.cursor()
             _SQL = """
                 insert into patient values (null, %s, %s, %s, %s, null, %s, %s, null);
             """
@@ -111,15 +113,14 @@ def do_patients_income():
         err_output = "Невозможно подключиться к базе данных." +  " " + str(e.errno) + " " + e.msg
         session.clear()
         return render_template('err_output.html', err_output=err_output, nav_buttons=True, back='back')
-
-    cursor = conn.cursor()
-    _SQL = """
-            select R_id, R_place_count, count(*) as pat_count from room join patient on (room.R_id=patient.PR_id)
-            where RDep_id = 1
-            group by R_id;
-            """
     try:
-        result = select(_SQL, cursor)
+        cursor = conn.cursor()
+        _SQL = """
+                select R_id, R_place_count, count(*) as pat_count from room join patient on (room.R_id=patient.PR_id)
+                where RDep_id = %s
+                group by R_id;
+                """
+        result = select(_SQL, cursor, (DEP_ID,))
     except Error as e:
         err_output = "Невозможно выполнить запрос к базе данных." +  " " + str(e.errno) + " " + e.msg
         session.clear()
@@ -132,16 +133,15 @@ def do_patients_income():
 
     if (len(chosen_rooms) < 1):
         result = "Нет свободных палат."
-        session.clear()
+        
         cursor.close()
         conn.close()
+        session.clear()
         return render_template('output.html', output=result, nav_buttons=True, back='back')
 
     session['available_rooms'] = chosen_rooms
-
     cursor.close()
     conn.close()
-
     return render_template('main_menu/patients_income/patients_income.html')
 
 

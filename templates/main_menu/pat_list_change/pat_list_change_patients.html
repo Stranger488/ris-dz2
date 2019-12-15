@@ -1,0 +1,66 @@
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Редактирование данных пациентов</title>
+    <link rel="stylesheet" type="text/css" href="{{ dated_url_for('static', filename='css/main.css') }}">
+    <link rel="icon" href="{{ url_for('static', filename='img/hospital-favicon128x128.ico') }}">
+</head>
+<body>
+    <div class="img"></div>
+    <div class="container">
+        {% if msg %}
+            <p>{{ msg }}</p>
+        {% endif %}
+        {% if (patients) %}
+            <h2>Выбор пациента для редактирования.</h2>
+            <hr>
+            <div class="table_wrap">
+                <table class="table_res" border="0" width="100%">
+                <thead>
+                    <tr>
+                        <td>Номер пациента</td>
+                        <td>Паспортные данные</td>
+                        <td>Адрес</td>
+                        <td>Дата рождения</td>
+                        <td>Дата поступления</td>
+                        <td>Дата выписки</td>
+                        <td>Диагноз</td>
+                        <td>Номер палаты</td>
+                        <td>Номер врача</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for patient in patients %}
+                        <tr>
+                            <td>{{ patient['P_id'] }}</td>
+                            <td>{{ patient['P_passport'] }}</td>
+                            <td>{{ patient['P_address'] }}</td>
+                            <td>{{ patient['P_birth'] }}</td>
+                            <td>{{ patient['P_incoming_date'] }}</td>
+                            <td>{{ patient['P_outcoming_date'] }}</td>
+                            <td>{{ patient['P_diagnosis'] }}</td>
+                            <td>{{ patient['PR_id'] }}</td>
+                            <td>{{ patient['PDoc_id'] }}</td>
+                            <td>
+                                <form action="" method="POST">
+                                    <input type="hidden" name="patients" value="{{ patient['P_id'] }}">
+                                    <input type="submit" name="patients_send" value="Редактировать" class="out_btn">
+                                    <input type="submit" name="patients_send_delete" value="Удалить" class="out_btn">
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            </div>
+        {% endif %}
+
+
+        <a href="?back" class="out_btn">Назад</a>
+        <a href="?out" class="out_btn">Выход</a>
+    </div>
+</body>
+</html>

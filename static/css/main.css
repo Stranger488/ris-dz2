@@ -308,3 +308,6 @@ table.table_res td {
   border-radius: 5px;
   padding: 5px;
 }
+.my_select_wide {
+  width: 120px;
+}

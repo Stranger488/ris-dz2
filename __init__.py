@@ -2,6 +2,7 @@
 
 from flask import Flask, request, render_template, Blueprint, redirect, url_for
 import os
+from includes.my_config import DEP_ID
 
 from main_menu.main_menu import main_menu_blueprint
 from auth.auth import auth_blueprint
