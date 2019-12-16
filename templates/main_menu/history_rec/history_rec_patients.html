@@ -12,8 +12,8 @@
         <div class="modal-overlay" id="modal-overlay"></div>
         <div class="modal" id="modal">
             <div class="modal-guts">
-            <h2>Подтверждение выхода</h2>
-            <p>Вы уверены, что хотите выйти?</p>
+            <h2 class="modal-guts-head">Подтверждение выхода</h2>
+            <p class="modal-guts-content">Вы уверены, что хотите выйти?</p>
             <button class="close-button out_btn modal_btn modal_btn_weak" id="close-button">Вернуться</button>
             <button class="confirm-button out_btn modal_btn modal_btn_strong" id="confirm-button">Выход</button>
             
@@ -27,7 +27,7 @@
         <h2>Выбор пациента для записи</h2>
         <hr>
 
-        <form action="" method="POST">
+        <form id="form-id" action="" method="POST">
             <label for="patient_id">Выберите пациента:</label>
             <select name="patients" id="patient_id" class="my_select my_select_wide">
                 {% for patient in patients %}
@@ -40,7 +40,7 @@
 
 
         <a href="?back" class="out_btn">Назад</a>
-        <a href="?out" class="out_btn open-modal" id="open-modal-id">Выход</a>
+        <a href="?out" class="out_btn open-modal-a" id="open-modal-id">Выход</a>
     </div>
     
     <script type="text/javascript" src="{{ dated_url_for('static', filename='js/main.js') }}"></script>

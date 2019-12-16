@@ -12,8 +12,8 @@
         <div class="modal-overlay" id="modal-overlay"></div>
         <div class="modal" id="modal">
             <div class="modal-guts">
-            <h2>Подтверждение выхода</h2>
-            <p>Вы уверены, что хотите выйти?</p>
+            <h2 class="modal-guts-head">Подтверждение выхода</h2>
+            <p class="modal-guts-content">Вы уверены, что хотите выйти?</p>
             <button class="close-button out_btn modal_btn modal_btn_weak" id="close-button">Вернуться</button>
             <button class="confirm-button out_btn modal_btn modal_btn_strong" id="confirm-button">Выход</button>
             
@@ -28,19 +28,19 @@
         <p>Количество пациентов за месяц в каждом отделении с определенным диагнозом.</p>
         <hr>
 
-        <form action="" method="POST">
+        <form id="form-id" action="" method="POST">
             <label for="year_id">Введите год:</label>
             <input type="text" name="in_year" id="year_id">
             <br>
             <label for="month_id">Введите месяц:</label>
             <input type="text" name="in_month" id="month_id">
             <br>
-            <input type="submit" name="send" value="Отправить" class="out_btn">
+            <input type="submit" name="send" value="Отправить" class="out_btn open-modal-input" id="form-submit-id">
         </form>
 
 
         <a href="?back" class="out_btn">Назад</a>
-        <a href="?out" class="out_btn open-modal" id="open-modal-id">Выход</a>
+        <a href="?out" class="out_btn open-modal-a" id="open-modal-id">Выход</a>
     </div>
     
     <script type="text/javascript" src="{{ dated_url_for('static', filename='js/main.js') }}"></script>
