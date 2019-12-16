@@ -70,6 +70,15 @@ input:focus:valid, textarea:focus:valid {
   border-color: green;
 }
 
+.main_wrapper {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 5px;
+  box-sizing: border-box;
+}
+
 .container {
   height: auto;
   border-radius: 5px;
@@ -158,8 +167,6 @@ input:focus:valid, textarea:focus:valid {
   z-index: 4;
 }
 
-
-
 .main_nav li:nth-child(1) a .defis:before {
    content: '1.';
    left: 0;
@@ -203,7 +210,7 @@ input:focus:valid, textarea:focus:valid {
     transform: translateX(55px);
 }
 
-.container .out_btn {
+.container .out_btn, .out_btn {
   border-radius: 10px;
   padding: 10px;
   display: inline-block;
@@ -213,25 +220,28 @@ input:focus:valid, textarea:focus:valid {
   transition: opacity .25s ease-in-out;
   margin: 5px;
   font-size: 18px;
-  height: 20px;
-  line-height: 20px;
+  height: 21px;
+  line-height: 21px;
   box-shadow: 0 3px 0 0 #9a000087;
 }
 
-.container input.out_btn {
+.container form input.out_btn, button.out_btn {
   height: 40px;
 }
 
-.container .out_btn:hover {
+.container .out_btn:hover, .out_btn:hover {
    opacity: .8;
    cursor: pointer;
 }
 
-.container .out_btn:active {
+.container .out_btn:active, .out_btn:active,
+.modal .modal_btn_weak:active {
   top: 3px;
   position: relative;
   box-shadow: none;
 }
+
+
 
 .table_wrap {
   overflow: auto;
@@ -276,6 +286,7 @@ table.table_res td {
 
 .main_nav.main_menu li a .defis:before {
   content: '•';
+  display: block;
 }
 
 .main_nav.main_menu a .defis:after {
@@ -285,6 +296,7 @@ table.table_res td {
 
 .main_nav.main_menu a:hover .defis:before {
   transform: translateX(-20px);
+  display: none;
   content: '';
 }
 
@@ -293,15 +305,14 @@ table.table_res td {
   content: '>';
 }
 
-
 .main_nav.main_menu a {
   width: 100%;
   transition: all .25s ease-in-out;
 }
 
-.main_nav.main_menu a:hover:last-child {
+/* .main_nav.main_menu a:hover:last-child {
   transform: translateX(17px);
-}
+} */
 
 .my_select {
   width: 60px;
@@ -310,4 +321,77 @@ table.table_res td {
 }
 .my_select_wide {
   width: 120px;
+}
+
+
+
+.modal {
+  /* This way it could be display flex or grid or whatever also. */
+  display: block;
+  /* Probably need media queries here */
+  width: 600px;
+  max-width: 100%;
+  height: 300px;
+  max-height: 100%;
+  
+  position: fixed;
+  z-index: -10;
+  left: 50%;
+  top: 50%;
+  
+  /* Use this for centering if unknown width/height */
+  transform: translate(-50%, -50%);
+  
+  /* If known, negative margins are probably better (less chance of blurry text). */
+  /* margin: -200px 0 0 -200px; */
+  
+  background: white;
+  box-shadow: 0 0 60px 10px rgba(0, 0, 0, 0.9);
+  opacity: 0;
+}
+
+.modal-overlay {
+  transition: opacity .5s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  opacity: 0;
+  z-index: -10;
+}
+.modal-guts {
+  transition: opacity .5s ease-in-out;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  padding: 20px;
+  box-sizing: border-box;
+  opacity: 0;
+  z-index: -10;
+}
+
+.modal-guts-active, .modal-overlay-active {
+  opacity: 1;
+}
+
+.modal-guts-active {
+  z-index: 100;
+}
+
+.modal-overlay-active {
+  z-index: 50;
+}
+
+.modal .modal_btn {
+  border: none;
+}
+
+.modal .modal_btn_weak {
+  box-shadow: 0 3px 0 0 #4375a9;
+  background-color: #6b91b7;
 }
