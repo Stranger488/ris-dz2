@@ -40,10 +40,10 @@
                             <td>{{ patient['P_address'] }}</td>
                             <td>{{ patient['P_birth'] }}</td>
                             <td>{{ patient['P_incoming_date'] }}</td>
-                            <td>{{ patient['P_outcoming_date'] }}</td>
+                            <td>{% if (patient['P_outcoming_date'] == None) %}null{% else %}{{ patient['P_outcoming_date'] }}{% endif %}</td>
                             <td>{{ patient['P_diagnosis'] }}</td>
                             <td>{{ patient['PR_id'] }}</td>
-                            <td>{{ patient['PDoc_id'] }}</td>
+                            <td>{% if (patient['PDoc_id'] == None) %}null{% else %}{{ patient['PDoc_id'] }}{% endif %}</td>
                             <td>
                                 <form action="" method="POST">
                                     <input type="hidden" name="patients" value="{{ patient['P_id'] }}">

@@ -30,13 +30,16 @@
                 <input type="date" name="patient_edit_income" id="patient_edit_income_id" value="{{ res['P_incoming_date'] }}">
                 <br>
                 <label for="patient_edit_outcom_id">Редактировать дату выписки:</label>
-                <input type="date" name="patient_edit_outcom" id="patient_edit_outcom_id" value="{{ res['P_outcoming_date'] }}">
+                <input type="date" name="patient_edit_outcom" id="patient_edit_outcom_id" value="{% if (res['P_outcoming_date'] == None) %}null{% else %}{{ res['P_outcoming_date'] }}{% endif %}">
                 <br>
                 <label for="patient_edit_diagn_id">Редактировать диагноз:</label>
                 <input type="text" name="patient_edit_diagn" id="patient_edit_diagn_id" value="{{ res['P_diagnosis'] }}">
                 <br>
                 <label for="patient_edit_room_id">Редактировать палату:</label>
                 <input type="text" name="patient_edit_room" id="patient_edit_room_id" value="{{ res['PR_id'] }}">
+                <br>
+                <label for="patient_edit_doc_id">Редактировать врача:</label>
+                <input type="text" name="patient_edit_doc" id="patient_edit_doc_id" value="{% if (res['PDoc_id'] == None) %}null{% else %}{{ res['PDoc_id'] }}{% endif %}">
                 <br>
                 <input type="submit" name="edit_send" value="Отправить" class="out_btn">
             {% endfor %}

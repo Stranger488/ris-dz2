@@ -54,7 +54,7 @@ def do_pat_list_change():
 
         conn, status = db_connect(session.get('db_user_login'), session.get('db_user_password'), 'localhost', 'hospital')
         if (status):
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return status
         cursor = conn.cursor()
         _SQL = """
@@ -62,7 +62,7 @@ def do_pat_list_change():
                 """
         result, status = execute(_SQL, cursor, conn, (patient,))
         if (status):
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return status
 
         success_msg = "Пациент успешно удален из базы данных."
@@ -72,12 +72,12 @@ def do_pat_list_change():
                 """
         result, status = select(_SQL, cursor, conn)
         if (status):
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return status
            
         if (len(result) < 1):
             result = "Нет доступных пациентов."
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return render_template('output.html', output=result, nav_buttons=True, back='back')
 
         res = []
@@ -85,7 +85,7 @@ def do_pat_list_change():
         for r in  result:
             res.append(dict(zip(schema, r)))
         result = res
-        my_clear_session('patients', 'patient_passp')
+        my_clear_session('patient', 'patient_passp')
         return render_template('main_menu/pat_list_change/pat_list_change_patients.html', patients=result, msg=success_msg)      
     ### ---/delete patient chosen--- ###
 
@@ -95,7 +95,7 @@ def do_pat_list_change():
 
         conn, status = db_connect(session.get('db_user_login'), session.get('db_user_password'), 'localhost', 'hospital')
         if (status):
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return status
         cursor = conn.cursor()
         _SQL = """
@@ -103,19 +103,24 @@ def do_pat_list_change():
                 """
         result, status = select(_SQL, cursor, conn, (session.get('patient'),))
         if (status):
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return status
 
         if (len(result) < 1):
             result = "Неизвестная ошибка. Нет такого пациента."
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return render_template('output.html', output=result, nav_buttons=True, back='pat_list_change_result_back')
 
         res = []
         schema = ['P_id', 'P_passport', 'P_address', 'P_birth', 'P_incoming_date', 'P_outcoming_date', 'P_diagnosis', 'PR_id', 'PDoc_id']
-        for r in  result:
+        for r in result:
+            print(r)
+            if (r[1] == 'None'):
+                r[1] = 'null'
             res.append(dict(zip(schema, r)))
         result = res
+
+
 
         session['patient_passp'] = result[0]['P_passport']
         return render_template('main_menu/pat_list_change/pat_list_change_edit.html', patient=result)
@@ -131,10 +136,17 @@ def do_pat_list_change():
         patient_edit_outcom = request.form['patient_edit_outcom']
         patient_edit_diagn = request.form['patient_edit_diagn']
         patient_edit_room = request.form['patient_edit_room']
+        patient_edit_doc = request.form['patient_edit_doc']
+
+        if (patient_edit_doc == 'None'):
+            patient_edit_doc = 'null'
+        if (patient_edit_outcom == ''):
+            patient_edit_outcom = 'null'
+        
 
         conn, status = db_connect(session.get('db_user_login'), session.get('db_user_password'), 'localhost', 'hospital')
         if (status):
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return status
         cursor = conn.cursor()
 
@@ -144,24 +156,37 @@ def do_pat_list_change():
                 """
             result, status = select(_SQL, cursor, conn, (patient_edit_passp,))
             if (status):
-                my_clear_session('patients', 'patient_passp')
+                my_clear_session('patient', 'patient_passp')
                 return status
             if (len(result) > 0):
-                my_clear_session('patients', 'patient_passp')
+                my_clear_session('patient', 'patient_passp')
                 result = "Пациент уже существует в базе данных."
                 return render_template('output.html', output=result, nav_buttons=True, back='pat_list_change_result_back')
 
-        _SQL = """
+        # why?
+        if (patient_edit_doc == 'null'):
+            _SQL = """
                 update patient set P_id = %s, P_passport = %s, P_address = %s,
                 P_birth = %s, P_incoming_date = %s, P_outcoming_date = %s, 
-                P_diagnosis = %s, PR_id = %s where P_id = %s;
+                P_diagnosis = %s, PR_id = %s, PDoc_id = null where P_id = %s;
             """
-        result, status = execute(_SQL, cursor, conn, (patient_edit_num, patient_edit_passp, patient_edit_addr,
+            result, status = execute(_SQL, cursor, conn, (patient_edit_num, patient_edit_passp, patient_edit_addr,
                                     patient_edit_birth, patient_edit_income, patient_edit_outcom,
-                                    patient_edit_diagn, patient_edit_room,
-                                    session.get('patient')))
+                                    patient_edit_diagn, patient_edit_room, 
+                                    session.get('patient'),))
+        else:
+            _SQL = """
+                    update patient set P_id = %s, P_passport = %s, P_address = %s,
+                    P_birth = %s, P_incoming_date = %s, P_outcoming_date = %s, 
+                    P_diagnosis = %s, PR_id = %s, PDoc_id = %s where P_id = %s;
+                """
+            result, status = execute(_SQL, cursor, conn, (patient_edit_num, patient_edit_passp, patient_edit_addr,
+                                        patient_edit_birth, patient_edit_income, patient_edit_outcom,
+                                        patient_edit_diagn, patient_edit_room, patient_edit_doc, 
+                                        session.get('patient'),))
+
         if (status):
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return status
 
         success_msg = "Новые значения успешно занесены в базу данных."
@@ -171,12 +196,12 @@ def do_pat_list_change():
                 """
         result, status = select(_SQL, cursor, conn)
         if (status):
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return status
            
         if (len(result) < 1):
             result = "Нет доступных пациентов."
-            my_clear_session('patients', 'patient_passp')
+            my_clear_session('patient', 'patient_passp')
             return render_template('output.html', output=result, nav_buttons=True, back='back')
 
         res = []
@@ -184,7 +209,7 @@ def do_pat_list_change():
         for r in  result:
             res.append(dict(zip(schema, r)))
         result = res
-        my_clear_session('patients', 'patient_passp')
+        my_clear_session('patient', 'patient_passp')
         return render_template('main_menu/pat_list_change/pat_list_change_patients.html', patients=result, msg=success_msg)     
     ### ---/editing--- ###
 
@@ -192,7 +217,7 @@ def do_pat_list_change():
     ### ---base--- ###
     conn, status = db_connect(session.get('db_user_login'), session.get('db_user_password'), 'localhost', 'hospital')
     if (status):
-        my_clear_session('patients', 'patient_passp')
+        my_clear_session('patient', 'patient_passp')
         return status
     cursor = conn.cursor()
     _SQL = """
@@ -200,12 +225,12 @@ def do_pat_list_change():
             """
     result, status = select(_SQL, cursor, conn)
     if (status):
-        my_clear_session('patients', 'patient_passp')
+        my_clear_session('patient', 'patient_passp')
         return status
         
     if (len(result) < 1):
         result = "Нет доступных пациентов."
-        my_clear_session('patients', 'patient_passp')
+        my_clear_session('patient', 'patient_passp')
         return render_template('output.html', output=result, nav_buttons=True, back='back')
 
     res = []
@@ -213,7 +238,7 @@ def do_pat_list_change():
     for r in  result:
         res.append(dict(zip(schema, r)))
     result = res
-    my_clear_session('patients', 'patient_passp')
+    my_clear_session('patient', 'patient_passp')
     return render_template('main_menu/pat_list_change/pat_list_change_patients.html', patients=result)    
     ### ---/base---###
 
