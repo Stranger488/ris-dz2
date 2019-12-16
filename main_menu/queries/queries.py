@@ -17,26 +17,20 @@ def do_queries():
         queries_out = request.args['out']
     except:
         queries_out = None
-
-    if (queries_out != None):
-        return render_template('out.html')
-
-
-
     try:
         queries_back = request.args['back']
     except:
         queries_back = None
-
-    if (queries_back != None):
-        return redirect('/main_menu')
-
-
     try:
         point = request.args['point']
     except:
         point = None
-    
+
+
+    if (queries_out != None):
+        return render_template('out.html')
+    if (queries_back != None):
+        return redirect('/main_menu')
     if (point == None):
         return render_template('main_menu/queries/queries.html')
     if (point == '1'):

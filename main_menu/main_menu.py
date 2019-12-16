@@ -14,15 +14,14 @@ def do_main_menu():
         main_menu_out = request.args['out']
     except:
         main_menu_out = None
-
-    if (main_menu_out != None):
-        return redirect('/logout')
-
     try:
         point = request.args['point']
     except:
         point = None
-    
+
+
+    if (main_menu_out != None):
+        return redirect('/logout')
     if (point == None):
         return render_template('main_menu/main_menu.html')
     if (point == '1'):

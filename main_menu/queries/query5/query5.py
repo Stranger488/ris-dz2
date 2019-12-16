@@ -5,9 +5,13 @@ from includes.db_connect import db_connect
 from includes.select import select
 from mysql.connector import Error
 
+from includes.utils import ensure_correct_role, ensure_logged_in
+
 query5_blueprint = Blueprint('query5', '__name__')
 
 @query5_blueprint.route('/query5', methods = ['POST', 'GET'])
+@ensure_logged_in
+@ensure_correct_role("zav")
 def do_query5():
     try:
         query5_result_back = request.args['query5_result_back']

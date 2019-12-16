@@ -34,3 +34,7 @@ def ensure_correct_role(*args1):
     return ensure_correct_user
 
 
+def my_clear_session(*args):
+    for every in args:
+        if (session.get(every)):
+            session.pop(every, None)

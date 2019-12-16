@@ -29,7 +29,8 @@ def do_auth():
 
         cursor = conn.cursor()
         _SQL = """
-                select U_id, U_login, U_password, U_user_role from hospital.user where U_login = %s and U_password = %s;  
+                select U_id, U_login, U_password, U_user_role, DocDep_id from hospital.user join doctor on
+                (user.U_id=doctor.Doc_id) where U_login = %s and U_password = %s;  
                 """
         result, status = select(_SQL, cursor, conn, (login, scramble,))
         if (status):
@@ -53,9 +54,12 @@ def do_auth():
 
         session['user_id'] = result[0][0]
         session['user_log'] = result[0][1]
+        session['user_dep'] = result[0][4]
         session['db_user_login'] = result_db_pas[0][0]
         session['db_user_password'] = result_db_pas[0][1]
         session['user_role'] = result_db_pas[0][2]
+
+        session.permanent = True
 
         return redirect('/main_menu')
 
@@ -66,6 +70,7 @@ def do_auth():
 def do_logout():
     session.pop('user_id', None)
     session.pop('user_log', None)
+    session.pop('user_dep', None)
     session.pop('db_user_login', None)
     session.pop('db_user_password', None)
     session.pop('user_role', None)
