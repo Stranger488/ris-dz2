@@ -224,6 +224,7 @@ input:focus:valid, textarea:focus:valid {
   line-height: 20px;
   box-shadow: 0 3px 0 0 #9a000087;
   box-sizing: border-box;
+  outline: none;
 }
 
 .container form input.out_btn, button.out_btn {
