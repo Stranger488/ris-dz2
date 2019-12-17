@@ -220,14 +220,14 @@ input:focus:valid, textarea:focus:valid {
   transition: opacity .25s ease-in-out;
   margin: 5px;
   font-size: 18px;
-  height: 42px;
-  line-height: 21px;
+  height: 40px;
+  line-height: 20px;
   box-shadow: 0 3px 0 0 #9a000087;
   box-sizing: border-box;
 }
 
 .container form input.out_btn, button.out_btn {
-  height: 45px;
+  height: 40px;
   box-sizing: border-box;
 }
 

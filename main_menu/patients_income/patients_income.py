@@ -5,7 +5,6 @@ from includes.db_connect import db_connect
 from includes.select import select
 from includes.execute import execute
 from mysql.connector import Error
-from includes.my_config import DEP_ID
 
 from includes.utils import my_clear_session
 from includes.utils import ensure_correct_role, ensure_logged_in

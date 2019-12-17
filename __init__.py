@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, Blueprint, redirect, url_for, session, flash
+from flask import Flask, request, render_template, Blueprint, redirect, url_for, session
 import os
 import datetime
-from includes.my_config import DEP_ID
 
 from includes.utils import ensure_logged_in
 
@@ -43,7 +42,6 @@ app.register_blueprint(query4_blueprint, url_prefix='/queries')
 app.register_blueprint(query5_blueprint, url_prefix='/queries')
 app.register_blueprint(query6_blueprint, url_prefix='/queries')
 
-
 def dated_url_for(endpoint, **values):
     if endpoint == 'static':
         filename = values.get('filename', None)
@@ -52,10 +50,6 @@ def dated_url_for(endpoint, **values):
                                  endpoint, filename)
             values['q'] = int(os.stat(file_path).st_mtime)
     return url_for(endpoint, **values)
-
-
-
-
 
 app.jinja_env.globals.update(dated_url_for=dated_url_for)
 
